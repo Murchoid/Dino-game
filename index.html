@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <title>Hello, World!</title>
+  <style>
+  body{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background-color:black;
+    color:white;
+  }
+  
+  #canvas{
+    width:1000px;
+    height:500px;
+    background-color:white;
+    border:1px solid lightgreen;
+  }
+  
+  #up{
+   width:300px;
+   height:100px;
+    position:relative;
+    right:-350px;
+    font-size:2rem;
+   
+  }
+  
+  #up:active{
+    background-color:skyblue;
+    color:white;
+  }
+  
+  </style>
+</head>
+<body>
+  <h1>
+    Dino Game
+  </h1>
+  
+  <div id="gameScreen">
+    <canvas id="canvas"></canvas>
+    
+  </div>
+  <button id="up">jump</button>
+  <div >
+    SCORE:
+    <h2 id="score">0</h2>
+  </div>
+  
+  <script>
+  window.onload=()=>{
+  var btn=document.getElementById("up");
+  var canvas=document.getElementById("canvas");
+  var context=canvas.getContext("2d");
+  var dinoX=100;
+  var dinoY=110;
+  var obstacleX=250;
+
+  var score=document.getElementById("score");
+  var scoreUpdate=0;
+  var dino=new Image();
+  dino.src="dino.png";
+  var cactus=new Image();
+    cactus.src="cactus.png";
+  var ground=new Image();
+    ground.src="ground.png";
+ function draw(){
+   context.clearRect(0,0,1000,500);
+   context.drawImage(ground,10 , 130, 1000, 20);
+
+  context.fillStyle="green";
+
+  
+   context.beginPath();
+   context.drawImage(dino, dinoX, dinoY, 30,30);
+  context.stroke();
+  context.fillStyle="green";
+  context.fill(); 
+  
+  context.beginPath();
+  context.drawImage(cactus,obstacleX,114,30,30);
+  context.stroke();
+  context.fillStyle="green";
+  context.fill(); 
+   
+   
+   obstacleX -= 10;
+  
+   if(obstacleX <= 0){
+     obstacleX=300;
+   }
+     
+    if(dinoY < 110){
+       dinoY+=5;
+     }
+      if(dinoX < 150){
+        dinoX+=3;
+      }
+      
+      //updating score
+      if(obstacleX==140 && dinoY+20 < 114){
+        scoreUpdate+=1;
+        score.innerText=scoreUpdate; 
+    
+      }
+        //gameover
+        if(obstacleX < dinoX-10 && obstacleX > dinoX-30 && dinoY+23>114 ){
+          alert("GAMEOVER");
+      
+          scoreUpdate=0;
+          score.innerText=scoreUpdate;
+       dinoX=50;
+       obstacleX=250;
+   
+        }
+  
+ }
+ btn.addEventListener("click",()=>{
+     
+     dinoY-=30;
+  
+   });
+  
+
+setInterval(draw,100);
+  }
+
+  </script>
+</body>
+</html>
